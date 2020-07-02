@@ -69,10 +69,10 @@ class HomeActivity : BaseActivity(), UserDetailsView, NavigationView.OnNavigatio
     private var isReceiverRegistered = false
     var checkedItem = 0
         private set
-    var doubleBackToExitPressedOnce = false
+    private var doubleBackToExitPressedOnce = false
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityComponent.inject(this)
+        activityComponent?.inject(this)
         setContentView(R.layout.activity_home)
         ButterKnife.bind(this)
         clientId = preferencesHelper.clientId

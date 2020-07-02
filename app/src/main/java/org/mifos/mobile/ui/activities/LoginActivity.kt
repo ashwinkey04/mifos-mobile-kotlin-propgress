@@ -48,7 +48,7 @@ class LoginActivity : BaseActivity(), LoginView {
     private var userName: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityComponent.inject(this)
+        activityComponent?.inject(this)
         setContentView(R.layout.activity_login)
         ButterKnife.bind(this)
         loginPresenter!!.attachView(this)

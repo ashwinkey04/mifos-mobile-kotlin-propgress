@@ -59,7 +59,7 @@ class LoginActivity : BaseActivity(), LoginView {
      *
      * @param userName Username of the user that successfully logged in!
      */
-    override fun onLoginSuccess(userName: String) {
+    override fun onLoginSuccess(userName: String?) {
         this.userName = userName
         loginPresenter!!.loadClient()
     }
@@ -92,16 +92,16 @@ class LoginActivity : BaseActivity(), LoginView {
      *
      * @param errorMessage Error message that tells the user about the problem.
      */
-    override fun showMessage(errorMessage: String) {
-        showToast(errorMessage, Toast.LENGTH_LONG)
+    override fun showMessage(errorMessage: String?) {
+        showToast(errorMessage!!, Toast.LENGTH_LONG)
         llLogin!!.visibility = View.VISIBLE
     }
 
-    override fun showUsernameError(error: String) {
+    override fun showUsernameError(error: String?) {
         tilUsername!!.error = error
     }
 
-    override fun showPasswordError(error: String) {
+    override fun showPasswordError(error: String?) {
         tilPassword!!.error = error
     }
 

@@ -11,6 +11,7 @@ import org.mifos.mobile.R
 import org.mifos.mobile.api.BaseApiManager
 import org.mifos.mobile.api.DataManager
 import org.mifos.mobile.api.local.PreferencesHelper
+import org.mifos.mobile.models.payload.LoginPayload
 import org.mifos.mobile.injection.ApplicationContext
 import org.mifos.mobile.models.Page
 import org.mifos.mobile.models.User
@@ -27,8 +28,8 @@ import javax.inject.Inject
  * @since 05/06/16
  */
 class LoginPresenter @Inject constructor(private val dataManager: DataManager, @ApplicationContext context: Context?) : BasePresenter<LoginView?>(context) {
-    private val preferencesHelper: PreferencesHelper
-    private val compositeDisposable: CompositeDisposable
+    private val preferencesHelper: PreferencesHelper = dataManager.preferencesHelper
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     override fun attachView(mvpView: LoginView?) {
         super.attachView(mvpView)
     }
@@ -44,17 +45,14 @@ class LoginPresenter @Inject constructor(private val dataManager: DataManager, @
      * If there are no errors, then we attempt to authenticate the user from
      * the server and then persist the authentication data if we successfully
      * authenticate the credentials or notify the view about any errors.
-     *
-     * @param username Username of the user trying to login.
-     * @param password Password of the user trying to login.
      */
-    fun login(username: String, password: String?) {
+    fun login(loginPayload: LoginPayload?) {
         checkViewAttached()
-        if (isCredentialsValid(username, password)) {
+        if (isCredentialsValid(loginPayload)) {
             mvpView!!.showProgress()
-            compositeDisposable.add(dataManager.login(username, password)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
+            compositeDisposable.add(dataManager.login(loginPayload)
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribeOn(Schedulers.io())!!
                     .subscribeWith(object : DisposableObserver<User?>() {
                         override fun onComplete() {}
                         override fun onError(e: Throwable) {
@@ -101,7 +99,7 @@ class LoginPresenter @Inject constructor(private val dataManager: DataManager, @
         compositeDisposable.add(dataManager.clients
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribeWith(object : DisposableObserver<Page<Client?>?>() {
+                .subscribeWith(object : DisposableObserver<Page<Client>?>() {
                     override fun onComplete() {}
                     override fun onError(e: Throwable) {
                         mvpView!!.hideProgress()
@@ -114,7 +112,7 @@ class LoginPresenter @Inject constructor(private val dataManager: DataManager, @
                         reInitializeService()
                     }
 
-                    override fun onNext(clientPage: Page<Client?>) {
+                    override fun onNext(clientPage: Page<Client>) {
                         mvpView!!.hideProgress()
                         if (clientPage.pageItems.isNotEmpty()) {
                             val clientId = clientPage.pageItems[0]!!.id.toLong()
@@ -132,7 +130,9 @@ class LoginPresenter @Inject constructor(private val dataManager: DataManager, @
     }
 
     @SuppressLint("StringFormatInvalid", "StringFormatMatches")
-    private fun isCredentialsValid(username: String, password: String?): Boolean {
+    private fun isCredentialsValid(loginPayload: LoginPayload?): Boolean {
+        val username:String = loginPayload?.username.toString()
+        val password:String = loginPayload?.password.toString()
         var credentialValid = true
         val resources = context.resources
         val correctUsername = username.replaceFirst("\\s++$".toRegex(), "").trim { it <= ' ' }
@@ -192,17 +192,4 @@ class LoginPresenter @Inject constructor(private val dataManager: DataManager, @
                 preferencesHelper.token)
     }
 
-    /**
-     * Initialises the LoginPresenter by automatically injecting an instance of
-     * [DataManager] and [Context].
-     *
-     * @param dataManager DataManager class that provides access to the data
-     * via the API.
-     * @param context     Context of the view attached to the presenter. In this case
-     * it is that of an [androidx.appcompat.app.AppCompatActivity]
-     */
-    init {
-        preferencesHelper = dataManager.preferencesHelper
-        compositeDisposable = CompositeDisposable()
-    }
 }

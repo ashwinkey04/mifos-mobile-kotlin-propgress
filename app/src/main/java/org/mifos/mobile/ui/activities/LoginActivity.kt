@@ -12,6 +12,7 @@ import butterknife.ButterKnife
 import butterknife.OnClick
 import com.google.android.material.textfield.TextInputLayout
 import org.mifos.mobile.R
+import org.mifos.mobile.models.payload.LoginPayload
 import org.mifos.mobile.presenters.LoginPresenter
 import org.mifos.mobile.ui.activities.base.BaseActivity
 import org.mifos.mobile.ui.views.LoginView
@@ -47,7 +48,7 @@ class LoginActivity : BaseActivity(), LoginView {
     private var userName: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityComponent.inject(this)
+        activityComponent?.inject(this)
         setContentView(R.layout.activity_login)
         ButterKnife.bind(this)
         loginPresenter!!.attachView(this)
@@ -92,7 +93,7 @@ class LoginActivity : BaseActivity(), LoginView {
      * @param errorMessage Error message that tells the user about the problem.
      */
     override fun showMessage(errorMessage: String?) {
-        errorMessage?.let { showToast(it, Toast.LENGTH_LONG) }
+        showToast(errorMessage!!, Toast.LENGTH_LONG)
         llLogin!!.visibility = View.VISIBLE
     }
 
@@ -120,7 +121,10 @@ class LoginActivity : BaseActivity(), LoginView {
         val username = tilUsername!!.editText!!.editableText.toString()
         val password = tilPassword!!.editText!!.editableText.toString()
         if (Network.isConnected(this)) {
-            loginPresenter!!.login(username, password)
+            val payload = LoginPayload()
+            payload.username = username
+            payload.password = password
+            loginPresenter!!.login(payload)
         } else {
             Toaster.show(llLogin, getString(R.string.no_internet_connection))
         }

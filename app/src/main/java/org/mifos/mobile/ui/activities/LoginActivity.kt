@@ -1,16 +1,19 @@
 package org.mifos.mobile.ui.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+
 import androidx.appcompat.widget.AppCompatButton
+
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+
 import com.google.android.material.textfield.TextInputLayout
+
 import org.mifos.mobile.R
 import org.mifos.mobile.models.payload.LoginPayload
 import org.mifos.mobile.presenters.LoginPresenter
@@ -19,6 +22,7 @@ import org.mifos.mobile.ui.views.LoginView
 import org.mifos.mobile.utils.Constants
 import org.mifos.mobile.utils.Network
 import org.mifos.mobile.utils.Toaster
+
 import javax.inject.Inject
 
 /**
@@ -46,12 +50,13 @@ class LoginActivity : BaseActivity(), LoginView {
     @BindView(R.id.ll_login)
     var llLogin: LinearLayout? = null
     private var userName: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityComponent?.inject(this)
         setContentView(R.layout.activity_login)
         ButterKnife.bind(this)
-        loginPresenter!!.attachView(this)
+        loginPresenter?.attachView(this)
     }
 
     /**
@@ -61,7 +66,7 @@ class LoginActivity : BaseActivity(), LoginView {
      */
     override fun onLoginSuccess(userName: String?) {
         this.userName = userName
-        loginPresenter!!.loadClient()
+        loginPresenter?.loadClient()
     }
 
     /**
@@ -81,7 +86,6 @@ class LoginActivity : BaseActivity(), LoginView {
     /**
      * Starts [PassCodeActivity]
      */
-    @SuppressLint("StringFormatInvalid")
     override fun showPassCodeActivity() {
         showToast(getString(R.string.toast_welcome, userName))
         startPassCodeActivity()
@@ -94,37 +98,38 @@ class LoginActivity : BaseActivity(), LoginView {
      */
     override fun showMessage(errorMessage: String?) {
         showToast(errorMessage!!, Toast.LENGTH_LONG)
-        llLogin!!.visibility = View.VISIBLE
+        llLogin?.visibility = View.VISIBLE
     }
 
     override fun showUsernameError(error: String?) {
-        tilUsername!!.error = error
+        tilUsername?.error = error
     }
 
     override fun showPasswordError(error: String?) {
-        tilPassword!!.error = error
+        tilPassword?.error = error
     }
 
     override fun clearUsernameError() {
-        tilUsername!!.isErrorEnabled = false
+        tilUsername?.isErrorEnabled = false
     }
 
     override fun clearPasswordError() {
-        tilPassword!!.isErrorEnabled = false
+        tilPassword?.isErrorEnabled = false
     }
 
     /**
      * Called when Login Button is clicked, used for logging in the user
      */
+
     @OnClick(R.id.btn_login)
     fun onLoginClicked() {
-        val username = tilUsername!!.editText!!.editableText.toString()
-        val password = tilPassword!!.editText!!.editableText.toString()
+        val username = tilUsername?.editText?.editableText.toString()
+        val password = tilPassword?.editText?.editableText.toString()
         if (Network.isConnected(this)) {
             val payload = LoginPayload()
             payload.username = username
             payload.password = password
-            loginPresenter!!.login(payload)
+            loginPresenter?.login(payload)
         } else {
             Toaster.show(llLogin, getString(R.string.no_internet_connection))
         }
@@ -137,12 +142,13 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun onDestroy() {
         super.onDestroy()
-        loginPresenter!!.detachView()
+        loginPresenter?.detachView()
     }
 
     /**
      * Starts [PassCodeActivity] with `Constans.INTIAL_LOGIN` as true
      */
+
     private fun startPassCodeActivity() {
         val intent = Intent(this@LoginActivity, PassCodeActivity::class.java)
         intent.putExtra(Constants.INTIAL_LOGIN, true)

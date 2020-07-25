@@ -22,8 +22,8 @@ import javax.inject.Inject
  */
 class CheckBoxAdapter @Inject constructor(@param:ActivityContext private val context: Context) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    
-    var statusList: List<CheckboxStatus>? = null
+
+    var statusList: List<CheckboxStatus?>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(
                 R.layout.row_checkbox, parent, false)
@@ -41,7 +41,7 @@ class CheckBoxAdapter @Inject constructor(@param:ActivityContext private val con
     }
 
     override fun getItemCount(): Int {
-        return if(statusList!=null) statusList!!.size
+        return if (statusList != null) statusList!!.size
         else 0
     }
 
@@ -61,7 +61,7 @@ class CheckBoxAdapter @Inject constructor(@param:ActivityContext private val con
 
         @OnCheckedChanged(R.id.cb_status_select)
         fun checkChanges() {
-            statusList!![adapterPosition].isChecked = (cbStatusSelect?.isChecked == true)
+            statusList!![adapterPosition]?.isChecked = (cbStatusSelect?.isChecked == true)
         }
 
         init {

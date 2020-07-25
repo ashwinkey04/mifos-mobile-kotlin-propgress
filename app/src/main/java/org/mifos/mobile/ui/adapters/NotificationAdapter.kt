@@ -7,24 +7,30 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+
 import org.mifos.mobile.R
 import org.mifos.mobile.injection.ActivityContext
 import org.mifos.mobile.models.notification.MifosNotification
 import org.mifos.mobile.utils.DateHelper.getDateAndTimeAsStringFromLong
+
 import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by dilpreet on 13/9/17.
  */
-class NotificationAdapter @Inject constructor(@param:ActivityContext private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var notificationList: List<MifosNotification>
-    fun setNotificationList(notificationList: List<MifosNotification>) {
+class NotificationAdapter @Inject constructor(@param:ActivityContext private val context: Context) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var notificationList: List<MifosNotification?>?
+    fun setNotificationList(notificationList: List<MifosNotification?>?) {
         this.notificationList = notificationList
         notifyDataSetChanged()
     }
@@ -35,20 +41,21 @@ class NotificationAdapter @Inject constructor(@param:ActivityContext private val
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val notification = notificationList[position]
-        (holder as ViewHolder).tvNotificationText!!.text = notification.msg
-        holder.tvNotificationTime!!.text = getDateAndTimeAsStringFromLong(notification.timeStamp)
-        if (notification.isRead) {
-            holder.ivNotificationIcon!!.setColorFilter(ContextCompat.getColor(context, R.color.gray_dark))
-            holder.btnDismissNotification!!.visibility = View.GONE
+        val notification = notificationList?.get(position)
+        (holder as ViewHolder).tvNotificationText?.text = notification?.msg
+        holder.tvNotificationTime?.text = getDateAndTimeAsStringFromLong(notification?.timeStamp)
+        if (notification?.isRead == true) {
+            holder.ivNotificationIcon?.setColorFilter(ContextCompat.getColor(context, R.color.gray_dark))
+            holder.btnDismissNotification?.visibility = View.GONE
         } else {
-            holder.ivNotificationIcon!!.setColorFilter(ContextCompat.getColor(context, R.color.primary))
-            holder.btnDismissNotification!!.visibility = View.VISIBLE
+            holder.ivNotificationIcon?.setColorFilter(ContextCompat.getColor(context, R.color.primary))
+            holder.btnDismissNotification?.visibility = View.VISIBLE
         }
     }
 
     override fun getItemCount(): Int {
-        return notificationList.size
+        return if (notificationList != null) notificationList!!.size
+        else 0
     }
 
     inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -67,10 +74,11 @@ class NotificationAdapter @Inject constructor(@param:ActivityContext private val
         @JvmField
         @BindView(R.id.btn_dismiss_notification)
         var btnDismissNotification: Button? = null
+
         @OnClick(R.id.btn_dismiss_notification)
         fun dismissNotification() {
-            notificationList[adapterPosition].isRead = true
-            notificationList[adapterPosition].save()
+            notificationList?.get(adapterPosition)?.isRead = true
+            notificationList?.get(adapterPosition)?.save()
             notifyItemChanged(adapterPosition)
         }
 

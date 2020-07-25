@@ -10,6 +10,7 @@ import java.util.*
  * @since 21/6/16.
  */
 class ViewPagerAdapter(manager: FragmentManager?) : FragmentPagerAdapter(manager) {
+
     private val mFragmentList: MutableList<Fragment> = ArrayList()
     private val mFragmentTitleList: MutableList<String> = ArrayList()
     override fun getItem(position: Int): Fragment {

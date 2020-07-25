@@ -17,22 +17,22 @@ import org.mifos.mobile.R
 import org.mifos.mobile.injection.ActivityContext
 import org.mifos.mobile.models.FAQ
 import org.mifos.mobile.utils.FaqDiffUtil
-import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by dilpreet on 12/8/17.
  */
 class FAQAdapter @Inject constructor(@ActivityContext context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var faqArrayList: ArrayList<FAQ>
+
+    private var faqArrayList: ArrayList<FAQ?>?
     private var alreadySelectedPosition = 0
     private val context: Context
-    fun setFaqArrayList(faqArrayList: ArrayList<FAQ>) {
+    fun setFaqArrayList(faqArrayList: ArrayList<FAQ?>?) {
         this.faqArrayList = faqArrayList
         alreadySelectedPosition = -1
     }
 
-    fun updateList(faqArrayList: ArrayList<FAQ>) {
+    fun updateList(faqArrayList: ArrayList<FAQ?>?) {
         val diffResult = DiffUtil.calculateDiff(FaqDiffUtil(this.faqArrayList,
                 faqArrayList))
         diffResult.dispatchUpdatesTo(this)
@@ -45,38 +45,39 @@ class FAQAdapter @Inject constructor(@ActivityContext context: Context) : Recycl
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val (question, answer, isSelected) = faqArrayList[position]
-        (holder as ViewHolder).tvFaqQs!!.text = question
-        holder.tvFaqAns!!.text = answer
+        val (question, answer, isSelected) = faqArrayList?.get(position)!!
+        (holder as ViewHolder).tvFaqQs?.text = question
+        holder.tvFaqAns?.text = answer
         if (isSelected) {
-            holder.tvFaqAns!!.visibility = View.VISIBLE
-            holder.ivArrow!!.setImageDrawable(ContextCompat.getDrawable(context,
+            holder.tvFaqAns?.visibility = View.VISIBLE
+            holder.ivArrow?.setImageDrawable(ContextCompat.getDrawable(context,
                     R.drawable.ic_arrow_up))
         } else {
-            holder.tvFaqAns!!.visibility = View.GONE
-            holder.ivArrow!!.setImageDrawable(ContextCompat.getDrawable(context,
+            holder.tvFaqAns?.visibility = View.GONE
+            holder.ivArrow?.setImageDrawable(ContextCompat.getDrawable(context,
                     R.drawable.ic_arrow_drop_down))
         }
     }
 
     private fun updateView(position: Int) {
         if (alreadySelectedPosition == position) {
-            faqArrayList[alreadySelectedPosition].isSelected = false
+            faqArrayList?.get(alreadySelectedPosition)?.isSelected = false
             notifyItemChanged(alreadySelectedPosition)
             alreadySelectedPosition = -1
             return
         }
         if (alreadySelectedPosition != -1) {
-            faqArrayList[alreadySelectedPosition].isSelected = false
+            faqArrayList?.get(alreadySelectedPosition)?.isSelected = false
             notifyItemChanged(alreadySelectedPosition)
         }
-        faqArrayList[position].isSelected = true
+        faqArrayList?.get(position)?.isSelected = true
         notifyItemChanged(position)
         alreadySelectedPosition = position
     }
 
     override fun getItemCount(): Int {
-        return faqArrayList.size
+        return if (faqArrayList != null) faqArrayList!!.size
+        else 0
     }
 
     inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -95,6 +96,7 @@ class FAQAdapter @Inject constructor(@ActivityContext context: Context) : Recycl
         @JvmField
         @BindView(R.id.iv_arrow)
         var ivArrow: ImageView? = null
+
         @OnClick(R.id.ll_faq)
         fun faqHeaderClicked() {
             updateView(adapterPosition)

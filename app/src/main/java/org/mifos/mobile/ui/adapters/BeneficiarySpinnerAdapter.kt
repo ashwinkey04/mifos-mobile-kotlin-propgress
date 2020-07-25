@@ -16,9 +16,9 @@ import org.mifos.mobile.models.beneficiary.BeneficiaryDetail
 /*
 * Created by saksham on 18/June/2018
 */
-class BeneficiarySpinnerAdapter(context: Context, private var resource: Int, var list: List<BeneficiaryDetail>) :
+class BeneficiarySpinnerAdapter(context: Context, private var resource: Int, var list: MutableList<BeneficiaryDetail?>) :
         ArrayAdapter<String?>(context, resource, 0) {
-    
+
     @JvmField
     @BindView(R.id.tv_account_number)
     var tvAccountNumber: TextView? = null
@@ -41,13 +41,13 @@ class BeneficiarySpinnerAdapter(context: Context, private var resource: Int, var
     private fun createItemView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = layoutInflater.inflate(resource, parent, false)
         ButterKnife.bind(this, view)
-        tvAccountNumber?.text = list[position].accountNumber
-        tvBeneficiaryName?.text = list[position].beneficiaryName
+        tvAccountNumber?.text = list[position]?.accountNumber
+        tvBeneficiaryName?.text = list[position]?.beneficiaryName
         return view
     }
 
     override fun getItem(position: Int): String? {
-        return list[position].accountNumber
+        return list[position]?.accountNumber
     }
 
 }

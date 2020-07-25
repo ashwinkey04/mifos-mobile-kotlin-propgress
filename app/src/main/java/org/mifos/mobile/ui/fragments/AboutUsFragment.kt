@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+
 import org.mifos.mobile.BuildConfig
 import org.mifos.mobile.R
 import org.mifos.mobile.ui.activities.PrivacyPolicyActivity
@@ -19,7 +22,9 @@ import java.util.*
 /*
 ~This project is licensed under the open source MPL V2.
 ~See https://github.com/openMF/self-service-app/blob/master/LICENSE.md
-*/   class AboutUsFragment : BaseFragment() {
+*/
+class AboutUsFragment : BaseFragment() {
+
     @kotlin.jvm.JvmField
     @BindView(R.id.tv_app_version)
     var tvAppVersion: TextView? = null
@@ -33,8 +38,8 @@ import java.util.*
         rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
         ButterKnife.bind(this, rootView!!)
         setToolbarTitle(getString(R.string.about_us))
-        tvAppVersion!!.text = getString(R.string.app_version, BuildConfig.VERSION_NAME)
-        tvCopyRight!!.text = getString(R.string.copy_right_mifos, Calendar.getInstance()[Calendar.YEAR].toString())
+        tvAppVersion?.text = getString(R.string.app_version, BuildConfig.VERSION_NAME)
+        tvCopyRight?.text = getString(R.string.copy_right_mifos, Calendar.getInstance()[Calendar.YEAR].toString())
         return rootView
     }
 

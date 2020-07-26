@@ -25,6 +25,7 @@ import java.util.*
 @RunWith(MockitoJUnitRunner::class)
 class NotificationPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -36,6 +37,7 @@ class NotificationPresenterTest {
     @Mock
     var view: NotificationView? = null
     private var presenter: NotificationPresenter? = null
+
     @Before
     @Throws(Exception::class)
     fun setUp() {

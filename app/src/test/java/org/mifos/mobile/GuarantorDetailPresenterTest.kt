@@ -26,6 +26,7 @@ import java.io.IOException
 @RunWith(MockitoJUnitRunner::class)
 class GuarantorDetailPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -40,6 +41,7 @@ class GuarantorDetailPresenterTest {
     @Mock
     var responseBody: ResponseBody? = null
     private var presenter: GuarantorDetailPresenter? = null
+
     @Before
     @Throws(Exception::class)
     fun setUp() {

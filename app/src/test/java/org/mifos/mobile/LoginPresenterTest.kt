@@ -31,6 +31,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class LoginPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -49,6 +50,7 @@ class LoginPresenterTest {
     private var clientPage: Page<Client?>? = null
     private var noClientPage: Page<Client?>? = null
     private var loginPayload: LoginPayload? = null
+
     @Before
     @Throws(Exception::class)
     fun setUp() {

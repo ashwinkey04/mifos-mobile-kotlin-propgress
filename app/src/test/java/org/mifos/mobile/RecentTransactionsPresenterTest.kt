@@ -27,6 +27,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class RecentTransactionsPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -41,6 +42,7 @@ class RecentTransactionsPresenterTest {
     private var recentTransaction: Page<Transaction?>? = null
     private var offset = 0
     private val limit = 50
+
     @Before
     fun setUp() {
         presenter = RecentTransactionsPresenter(dataManager!!, context!!)

@@ -27,6 +27,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class ThirdPartyTransferPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -40,6 +41,7 @@ class ThirdPartyTransferPresenterTest {
     private var accountOptionsTemplate: AccountOptionsTemplate? = null
     private var presenter: ThirdPartyTransferPresenter? = null
     private var beneficiaryList: List<Beneficiary?>? = null
+
     @Before
     fun setUp() {
         presenter = ThirdPartyTransferPresenter(dataManager!!, context!!)

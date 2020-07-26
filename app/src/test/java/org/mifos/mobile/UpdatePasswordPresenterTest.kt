@@ -29,6 +29,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class UpdatePasswordPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -47,6 +48,7 @@ class UpdatePasswordPresenterTest {
     var responseBody: ResponseBody? = null
     private var passwordPayload: UpdatePasswordPayload? = null
     private var presenter: UpdatePasswordPresenter? = null
+
     @Before
     @Throws(Exception::class)
     fun setUp() {

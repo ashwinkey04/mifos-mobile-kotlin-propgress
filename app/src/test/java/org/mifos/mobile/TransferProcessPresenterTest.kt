@@ -28,6 +28,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class TransferProcessPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -43,6 +44,7 @@ class TransferProcessPresenterTest {
     var mockedResponseBody: ResponseBody? = null
     private var presenter: TransferProcessPresenter? = null
     private var transferPayload: TransferPayload? = null
+
     @Before
     fun setUp() {
         presenter = TransferProcessPresenter(dataManager!!, context!!)

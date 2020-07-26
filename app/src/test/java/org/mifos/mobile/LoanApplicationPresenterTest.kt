@@ -30,6 +30,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class LoanApplicationPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -47,6 +48,7 @@ class LoanApplicationPresenterTest {
     private var loanTemplate: LoanTemplate? = null
     private var loanTemplateWithProduct: LoanTemplate? = null
     private var loansPayload: LoansPayload? = null
+
     @Before
     fun setUp() {
         presenter = LoanApplicationPresenter(dataManager!!, context)

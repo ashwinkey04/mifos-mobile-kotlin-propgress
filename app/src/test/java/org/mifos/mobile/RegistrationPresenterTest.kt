@@ -28,6 +28,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class RegistrationPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -43,6 +44,7 @@ class RegistrationPresenterTest {
     var responseBody: ResponseBody? = null
     private var presenter: RegistrationPresenter? = null
     private var registerPayload: RegisterPayload? = null
+
     @Before
     @Throws(Exception::class)
     fun setUp() {

@@ -25,6 +25,7 @@ import java.io.IOException
 @RunWith(MockitoJUnitRunner::class)
 class GuarantorListPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -37,6 +38,7 @@ class GuarantorListPresenterTest {
     var view: GuarantorListView? = null
     private var presenter: GuarantorListPresenter? = null
     private var guarantorPayloadList: List<GuarantorPayload?>? = null
+
     @Before
     @Throws(Exception::class)
     fun setUp() {

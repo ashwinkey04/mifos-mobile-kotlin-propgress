@@ -23,6 +23,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class SavingsAccountWithdrawPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -40,6 +41,7 @@ class SavingsAccountWithdrawPresenterTest {
 
     @Mock
     var responseBody: ResponseBody? = null
+
     @Before
     @Throws(Exception::class)
     fun setUp() {

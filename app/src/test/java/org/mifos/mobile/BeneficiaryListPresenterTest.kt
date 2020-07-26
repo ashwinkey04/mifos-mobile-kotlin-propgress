@@ -25,6 +25,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class BeneficiaryListPresenterTest {
     @Rule
+    @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
 
     @Mock
@@ -37,6 +38,7 @@ class BeneficiaryListPresenterTest {
     var view: BeneficiariesView? = null
     private var presenter: BeneficiaryListPresenter? = null
     private var beneficiaryList: List<Beneficiary?>? = null
+
     @Before
     @Throws(Exception::class)
     fun setUp() {

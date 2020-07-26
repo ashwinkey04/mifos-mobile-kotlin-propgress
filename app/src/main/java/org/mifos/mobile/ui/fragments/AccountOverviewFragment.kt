@@ -65,9 +65,9 @@ class AccountOverviewFragment : BaseFragment(), AccountOverviewMvpView, OnRefres
         accountOverviewPresenter?.loadClientAccountDetails()
     }
 
-    override fun showTotalLoanSavings(totalLoan: Double, totalSavings: Double) {
-        totalLoanBalance = totalLoan
-        totalSavingsBalance = totalSavings
+    override fun showTotalLoanSavings(totalLoan: Double?, totalSavings: Double?) {
+        totalLoanBalance = totalLoan!!
+        totalSavingsBalance = totalSavings!!
         tvTotalLoan?.text = CurrencyUtil.formatCurrency(context!!, totalLoan)
         tvTotalSavings?.text = CurrencyUtil.formatCurrency(context!!, totalSavings)
     }

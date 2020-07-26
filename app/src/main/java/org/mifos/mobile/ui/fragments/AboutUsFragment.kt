@@ -33,8 +33,10 @@ class AboutUsFragment : BaseFragment() {
     @BindView(R.id.tv_copy_right)
     var tvCopyRight: TextView? = null
     var rootView: View? = null
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
         ButterKnife.bind(this, rootView!!)
         setToolbarTitle(getString(R.string.about_us))

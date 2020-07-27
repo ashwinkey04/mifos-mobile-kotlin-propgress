@@ -20,6 +20,7 @@ import okhttp3.logging.HttpLoggingInterceptor.Level;
 
 
 public class SelfServiceOkHttpClient {
+
     private String authToken;
     private String tenant;
 

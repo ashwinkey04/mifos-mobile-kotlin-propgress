@@ -2,33 +2,22 @@ package org.mifos.mobile.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+
 import java.security.KeyStore
 import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
-class SelfServiceOkHttpClient(private val tenant: String, private val authToken: String) {
+class SelfServiceOkHttpClient(private val tenant: String?, private val authToken: String?) {
     // Create a trust manager that does not validate certificate chains
     val mifosOkHttpClient: OkHttpClient
-
-    // Install the all-trusting trust manager
-    // Create an ssl socket factory with our all-trusting manager
-
-    //Enable Full Body Logging
-
-    //Set SSL certificate to OkHttpClient Builder
-
-    //Enable Full Body Logging
-
-    //Setting Timeout 30 Seconds
-
-        //Interceptor :> Full Body Logger and ApiRequest Header
         get() {
             val builder = OkHttpClient.Builder()
             try {
@@ -49,7 +38,7 @@ class SelfServiceOkHttpClient(private val tenant: String, private val authToken:
                             ) {
                             }
 
-                            override fun getAcceptedIssuers(): Array<X509Certificate> {
+                            override fun getAcceptedIssuers(): Array<X509Certificate?> {
                                 return arrayOfNulls(0)
                             }
                         }
@@ -72,7 +61,7 @@ class SelfServiceOkHttpClient(private val tenant: String, private val authToken:
 
                 //Set SSL certificate to OkHttpClient Builder
                 builder.sslSocketFactory(sslSocketFactory, trustManager)
-                builder.hostnameVerifier { hostname, session -> true }
+                builder.hostnameVerifier { _, _ -> true }
             } catch (e: Exception) {
                 throw RuntimeException(e)
             }

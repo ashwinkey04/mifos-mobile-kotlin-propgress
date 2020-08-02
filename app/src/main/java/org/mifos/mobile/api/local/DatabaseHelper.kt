@@ -1,12 +1,15 @@
 package org.mifos.mobile.api.local
 
 import com.raizlabs.android.dbflow.sql.language.SQLite
+
 import io.reactivex.Observable
+
 import org.mifos.mobile.models.Charge
 import org.mifos.mobile.models.Page
 import org.mifos.mobile.models.notification.MifosNotification
 import org.mifos.mobile.models.notification.MifosNotification_Table
 import org.mifos.mobile.utils.NotificationComparator
+
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,25 +19,25 @@ import javax.inject.Singleton
  */
 @Singleton
 class DatabaseHelper @Inject constructor() {
-    fun syncCharges(charges: Page<Charge>): Observable<Page<Charge>> {
+    fun syncCharges(charges: Page<Charge?>?): Observable<Page<Charge?>?>? {
         return Observable.defer {
-            for (charge in charges.pageItems) {
-                charge.save()
-            }
+            if (charges != null)
+                for (charge in charges.pageItems)
+                    charge?.save()
             Observable.just(charges)
         }
     }
 
-    val clientCharges: Observable<Page<Charge>>
+    val clientCharges: Observable<Page<Charge?>?>?
         get() = Observable.defer {
             val charges = SQLite.select()
                     .from(Charge::class.java)
                     .queryList()
-            val chargePage = Page<Charge>()
+            val chargePage = Page<Charge?>()
             chargePage.pageItems = charges
             Observable.just(chargePage)
         }
-    val notifications: Observable<List<MifosNotification>>
+    val notifications: Observable<List<MifosNotification?>?>?
         get() = Observable.defer {
             deleteOldNotifications()
             val notifications = SQLite.select()

@@ -223,12 +223,12 @@ class DataManager @Inject constructor(
 
     fun getGuarantorTemplate(loanId: Long?): Observable<GuarantorTemplatePayload?>? {
         return baseApiManager.guarantorApi?.getGuarantorTemplate(loanId)
-                ?.onErrorResumeNext(Function<Throwable?, ObservableSource<out GuarantorTemplatePayload>> { Observable.just(FakeRemoteDataSource.getGuarantorTemplatePayload()) })
+                ?.onErrorResumeNext(Function<Throwable?, ObservableSource<out GuarantorTemplatePayload>> { Observable.just(FakeRemoteDataSource.guarantorTemplatePayload) })
     }
 
     fun getGuarantorList(loanId: Long): Observable<List<GuarantorPayload?>?>? {
         return baseApiManager.guarantorApi?.getGuarantorList(loanId)
-                ?.onErrorResumeNext(Function<Throwable?, ObservableSource<out List<GuarantorPayload>>> { Observable.just(FakeRemoteDataSource.getGuarantorsList()) })
+                ?.onErrorResumeNext(Function<Throwable?, ObservableSource<out List<GuarantorPayload>>> { Observable.just(FakeRemoteDataSource.guarantorsList) })
     }
 
     fun createGuarantor(
